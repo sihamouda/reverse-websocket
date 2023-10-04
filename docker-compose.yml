@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  webserver:
+    build: 
+      context: ./webserver
+
+  worker:
+    build: 
+      context: ./worker
+
+
+    

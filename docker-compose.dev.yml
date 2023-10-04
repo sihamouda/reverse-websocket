@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  webserver:
+    entrypoint: bash
+    tty: true
+    volumes:
+      - ./webserver/src:/app/src/.
+    ports:
+      - 3000:8080
+  worker:
+    entrypoint: bash
+    tty: true
+    volumes:
+      - ./worker/src:/app/src/.
+    ports:
+      - 4000:8080/tcp
+      - 4000:8080/udp
