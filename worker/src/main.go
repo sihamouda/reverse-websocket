@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	// "errors"
@@ -12,8 +13,9 @@ func healthcheck (c *gin.Context){
 }
 
 func main (){
+    port := os.Getenv("PORT")
     var router = gin.Default()
     router.GET("/health",healthcheck)
-    router.Run("0.0.0.0:8080")
+    router.Run("0.0.0.0:"+port)
 }
 

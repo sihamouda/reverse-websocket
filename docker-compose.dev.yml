@@ -1,6 +1,7 @@
 version: '3.8'
 services:
   webserver:
+    env_file: ./webserver/.dev.env
     entrypoint: bash
     tty: true
     volumes:
@@ -8,6 +9,7 @@ services:
     ports:
       - 3000:8080
   worker:
+    env_file: ./worker/.dev.env
     entrypoint: bash
     tty: true
     volumes:

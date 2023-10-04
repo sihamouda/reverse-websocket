@@ -1,10 +1,12 @@
 version: '3.8'
 services:
   webserver:
+    container_name: webserver
     build: 
       context: ./webserver
 
   worker:
+    container_name: worker
     build: 
       context: ./worker
 
