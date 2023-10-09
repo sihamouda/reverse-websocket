@@ -39,9 +39,11 @@ func registerWorker(){
 }
 
 func main (){
-    registerWorker()
+    go registerWorker()
+
     port := os.Getenv("PORT")
     var router = gin.Default()
+    
     router.GET("/health",healthcheck)
     router.Run("0.0.0.0:"+port)
 }
