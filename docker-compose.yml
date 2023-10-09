@@ -1,14 +1,20 @@
-version: '3.8'
+version: "3.8"
 services:
   webserver:
     container_name: webserver
-    build: 
+    build:
       context: ./webserver
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 50s
+      timeout: 50s
+      retries: 1
 
   worker:
     container_name: worker
-    build: 
+    build:
       context: ./worker
-
-
-    
+    depends_on:
+      webserver:
+        condition: service_healthy
+        restart: true

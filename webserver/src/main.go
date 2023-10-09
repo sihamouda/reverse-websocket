@@ -14,7 +14,7 @@ func healthcheck (c *gin.Context){
 
 type worker struct {
     // ID string `json:"id"`
-    IP string `json:"ip"`
+    Hostname string `json:"hostname"`
 }
 
 var workers = []worker{}

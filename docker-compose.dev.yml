@@ -1,17 +1,15 @@
-version: '3.8'
+version: "3.8"
 services:
   webserver:
     env_file: ./webserver/.dev.env
-    entrypoint: bash
-    tty: true
+    command: go run ./src/.
     volumes:
       - ./webserver/src:/app/src/.
     ports:
       - 3000:8080
   worker:
     env_file: ./worker/.dev.env
-    entrypoint: bash
-    tty: true
+    command: go run ./src/.
     volumes:
       - ./worker/src:/app/src/.
     ports:
