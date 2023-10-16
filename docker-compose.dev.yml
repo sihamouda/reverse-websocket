@@ -7,6 +7,8 @@ services:
       - ./webserver/src:/app/src/.
     ports:
       - 3000:8080
+  db:
+    env_file: ./webserver/.dev.env
   worker:
     env_file: ./worker/.dev.env
     command: go run ./src/.

@@ -3,9 +3,9 @@ package main
 import (
 	"net/http"
 	"os"
+	"reverse-websocket-webserver/src/db"
 
 	"github.com/gin-gonic/gin"
-	// "errors"
 )
 
 func healthcheck (c *gin.Context){
@@ -35,8 +35,9 @@ func registerWorker(c *gin.Context){
 }
 
 func main() {
-    port := os.Getenv("PORT")
+    go db.HandleConnection()
 
+    port := os.Getenv("PORT")
     var router = gin.Default()
     router.GET("/health",healthcheck)
     router.GET("/worker",getWorkers)

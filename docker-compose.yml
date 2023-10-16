@@ -10,6 +10,13 @@ services:
       timeout: 50s
       retries: 1
 
+  db:
+    container_name: webserver-db
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
   worker:
     container_name: worker
     build:
