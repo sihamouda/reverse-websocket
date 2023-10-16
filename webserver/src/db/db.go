@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/sihamouda/reverse-websocket/webserver/src/types"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -47,12 +49,42 @@ func ping(client *mongo.Client, ctx context.Context) error{
     return nil
 }
 
-func HandleConnection()(*mongo.Client,context.Context){ 
+func HandleConnection(channel chan *mongo.Client){ 
 	client, ctx, cancel, err := connect()
     if err != nil{
         panic(err)
     }
     defer close(client, ctx, cancel)
     ping(client, ctx)
-	return client, ctx
+	channel <- client
+}
+
+func CreateWorker(client *mongo.Client, worker types.Worker) error{
+	collection := client.Database("webserver").Collection("workers")
+
+	ctx, _ := context.WithTimeout(context.Background(), 30 * time.Second)
+	
+	_, err := collection.InsertOne(ctx, bson.M{"hostname": worker.Hostname})
+	if err != nil { 
+		return errors.New("db: worker could not be registred")
+	}
+	return nil
+}
+
+func ReadWorkers(client *mongo.Client) ([]bson.D, error){
+	collection := client.Database("webserver").Collection("workers")
+
+	ctx, _ := context.WithTimeout(context.Background(), 30 * time.Second)
+	
+	cursor , err := collection.Find(ctx, bson.M{})
+	if err != nil { 
+		return nil ,errors.New("db: error while reading from db")
+	}
+
+	var results []bson.D
+
+    if err := cursor.All(ctx, &results); err != nil {
+        return nil ,errors.New("db: error while reading from db")
+    }
+	return results, nil
 }

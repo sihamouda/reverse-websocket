@@ -9,6 +9,20 @@ services:
       - 3000:8080
   db:
     env_file: ./webserver/.dev.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=changeme
+      - MONGO_INITDB_ROOT_PASSWORD=changeme
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=ok
+      - ME_CONFIG_BASICAUTH_PASSWORD=ok
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=changeme
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=changeme
+      - ME_CONFIG_MONGODB_URL=mongodb://changeme:changeme@webserver-db:27017/
   worker:
     env_file: ./worker/.dev.env
     command: go run ./src/.

@@ -1,4 +1,4 @@
-module reverse-websocket-webserver
+module github.com/sihamouda/reverse-websocket/webserver
 
 go 1.21.1
 
